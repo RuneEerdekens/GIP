@@ -7,8 +7,8 @@ class StickHandle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        width: 60,
-        height: 60,
+        width: 40,
+        height: 40,
         decoration:
             const BoxDecoration(shape: BoxShape.circle, color: Colors.amber));
   }

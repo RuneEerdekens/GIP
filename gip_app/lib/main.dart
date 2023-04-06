@@ -1,8 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:gip_app/bt_screen.dart';
 import 'package:gip_app/stick.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-
-
+import 'bluetooth_connection.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +30,9 @@ class RootePage extends StatefulWidget {
 }
 
 class _RootePageState extends State<RootePage> {
+  BluetoothConnectionManager bluetoothManager = BluetoothConnectionManager();
+  int updateDelayMs = 200;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,25 +42,40 @@ class _RootePageState extends State<RootePage> {
       body: Stack(
         children: [
           Align(
-            alignment: AlignmentDirectional.bottomCenter,
+            alignment: AlignmentDirectional.center,
             child: Container(
               margin: const EdgeInsets.only(left: 400, top: 40),
-              child: const Stick(),
+              child: Stick(
+                bluetoothManager: bluetoothManager,
+                sig: 0xF0,
+                updateTimeMs: updateDelayMs,
+              ),
             ),
           ),
           Align(
-              alignment: AlignmentDirectional.bottomCenter,
+              alignment: AlignmentDirectional.center,
               child: Container(
                 margin: const EdgeInsets.only(right: 400, top: 40),
-                child: const Stick(text: "Up/down, Left/Right"),
+                child: Stick(
+                  text: "Up/down, Left/Right",
+                  bluetoothManager: bluetoothManager,
+                  sig: 0xF1,
+                  updateTimeMs: updateDelayMs,
+                ),
               ))
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          debugPrint("Floating Action Button");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BtScreen(
+                      bluetoothManager: bluetoothManager,
+                    )),
+          );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.bluetooth),
       ),
     );
   }

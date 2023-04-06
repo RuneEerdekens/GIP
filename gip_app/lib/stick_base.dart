@@ -7,8 +7,8 @@ class StickBase extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      width: 200,
-      height: 200,
+      width: 160,
+      height: 160,
       decoration:
           const BoxDecoration(shape: BoxShape.circle, color: Colors.lightBlue),
     );

@@ -1,21 +1,41 @@
+import 'dart:async';
+import 'dart:ffi';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_joystick/flutter_joystick.dart';
+
+import 'bluetooth_connection.dart';
 import 'package:gip_app/stick_base.dart';
 import 'package:gip_app/stick_handle.dart';
+import 'package:gip_app/stick_data.dart';
 
-double stickX = 0;
-double stickY = 0;
+double x = 0, y = 0;
 
 class Stick extends StatefulWidget {
   final String? text;
+  final int sig;
+  final BluetoothConnectionManager bluetoothManager;
+  final int updateTimeMs;
 
-  const Stick({super.key, this.text});
+  const Stick(
+      {super.key,
+      this.text,
+      required this.bluetoothManager,
+      required this.sig,
+      required this.updateTimeMs});
 
   @override
   State<Stick> createState() => _StickState();
 }
 
 class _StickState extends State<Stick> {
+  bool canSend = true;
+
+  Future<void> _sendMessage(Uint8List val) async {
+    await widget.bluetoothManager.sendMessage(val);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,18 +44,24 @@ class _StickState extends State<Stick> {
           margin: const EdgeInsets.only(bottom: 20),
           child: Text(
               widget.text ??
-                  "X: ${stickX.toStringAsFixed(2)} Y: ${stickY.toStringAsFixed(2)}",
+                  "X: ${x.toStringAsFixed(2)} Y: ${y.toStringAsFixed(2)}",
               style:
-                  const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                  const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
         ),
         Joystick(
           base: const StickBase(),
           stick: const StickHandle(),
           listener: (details) {
             setState(() {
-              stickX = details.x;
-              stickY = details.y;
-              debugPrint("X: ${stickX.toString()} Y: ${stickY.toString()}");
+              x = details.x;
+              y = details.y;
+              if (canSend) {
+                canSend = false;
+                Timer(const Duration(microseconds: 200), () {
+                  _sendMessage(format255(x, y, 5.2, widget.sig));
+                  canSend = true;
+                });
+              }
             });
           },
         )

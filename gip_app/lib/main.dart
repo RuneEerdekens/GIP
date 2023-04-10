@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.amber),
+      theme: ThemeData(primarySwatch: Colors.lime),
       home: const RootePage(),
     );
   }
@@ -33,7 +33,7 @@ class RootePage extends StatefulWidget {
 
 class _RootePageState extends State<RootePage> {
   BluetoothConnectionManager bluetoothManager = BluetoothConnectionManager();
-  int updateDelayMs = 200;
+  int updateDelayMs = 100;
 
   @override
   Widget build(BuildContext context) {

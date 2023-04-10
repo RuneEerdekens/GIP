@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -30,8 +29,6 @@ class Stick extends StatefulWidget {
 }
 
 class _StickState extends State<Stick> {
-  bool canSend = true;
-
   Future<void> _sendMessage(Uint8List val) async {
     await widget.bluetoothManager.sendMessage(val);
   }
@@ -51,17 +48,15 @@ class _StickState extends State<Stick> {
         Joystick(
           base: const StickBase(),
           stick: const StickHandle(),
+          period: Duration(milliseconds: widget.updateTimeMs),
+          onStickDragEnd: () {
+            _sendMessage(format255(0, 0, 100, widget.sig));
+          },
           listener: (details) {
             setState(() {
               x = details.x;
               y = details.y;
-              if (canSend) {
-                canSend = false;
-                Timer(const Duration(milliseconds: 100), () {
-                  _sendMessage(format255(x, y, 100, widget.sig));
-                  canSend = true;
-                });
-              }
+              _sendMessage(format255(x, y, 100, widget.sig));
             });
           },
         )

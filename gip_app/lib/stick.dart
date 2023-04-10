@@ -57,8 +57,8 @@ class _StickState extends State<Stick> {
               y = details.y;
               if (canSend) {
                 canSend = false;
-                Timer(const Duration(microseconds: 200), () {
-                  _sendMessage(format255(x, y, 5.2, widget.sig));
+                Timer(const Duration(milliseconds: 100), () {
+                  _sendMessage(format255(x, y, 100, widget.sig));
                   canSend = true;
                 });
               }

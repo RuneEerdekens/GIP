@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -15,11 +14,6 @@ Uint8List format255(double x, double y, double scalar, int signal){
 
   pDistY = 1 - y;
   nDistY = 2 - pDistY;
-
-  pDistX *= 10;
-  nDistX *= 10;
-  pDistY *= 10;
-  nDistY *= 10;
 
   dm1 = sqrt(pow(nDistX, 2) + pow(pDistY, 2)); //pytagoras
   dm2 = sqrt(pow(pDistX, 2) + pow(pDistY, 2)); 

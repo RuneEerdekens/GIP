@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:gip_app/bt_screen.dart';
 import 'package:gip_app/stick.dart';
@@ -7,11 +6,14 @@ import 'bluetooth_connection.dart';
 
 void main() {
   runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.landscapeLeft,
+  ]);
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -53,16 +55,17 @@ class _RootePageState extends State<RootePage> {
             ),
           ),
           Align(
-              alignment: AlignmentDirectional.center,
-              child: Container(
-                margin: const EdgeInsets.only(right: 400, top: 40),
-                child: Stick(
-                  text: "Up/down, Left/Right",
-                  bluetoothManager: bluetoothManager,
-                  sig: 0xF1,
-                  updateTimeMs: updateDelayMs,
-                ),
-              ))
+            alignment: AlignmentDirectional.center,
+            child: Container(
+              margin: const EdgeInsets.only(right: 400, top: 40),
+              child: Stick(
+                text: "Up/down, Left/Right",
+                bluetoothManager: bluetoothManager,
+                sig: 0xF1,
+                updateTimeMs: updateDelayMs,
+              ),
+            ),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -70,9 +73,10 @@ class _RootePageState extends State<RootePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => BtScreen(
-                      bluetoothManager: bluetoothManager,
-                    )),
+              builder: (context) => BtScreen(
+                bluetoothManager: bluetoothManager,
+              ),
+            ),
           );
         },
         child: const Icon(Icons.bluetooth),

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'bluetooth_connection.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -20,6 +22,10 @@ class _BtScreenState extends State<BtScreen> {
     _getBondedDevices();
   }
 
+  Future<void> _sendMessage(Uint8List val) async {
+    await widget.bluetoothManager.sendMessage(val);
+  }
+
   Future<void> _getBondedDevices() async {
     try {
       devices = await widget.bluetoothManager.getBondedDevices();
@@ -38,12 +44,21 @@ class _BtScreenState extends State<BtScreen> {
 
     try {
       await widget.bluetoothManager.connect(selectedDevice!);
+      if (widget.bluetoothManager.connection.isConnected) {
+        _sendMessage(Uint8List.fromList([0xF2, 162, 162, 162, 162]));
+        await Future.delayed(const Duration(milliseconds: 2500));
+        for (var i = 162; i >= 1; i--) {
+            _sendMessage(Uint8List.fromList([0xF2, i, i, i, i]));
+        }
+      }
     } catch (ex) {
       print('Error connecting to device: $ex');
     }
   }
 
   Future<void> _disconnectFromDevice() async {
+    _sendMessage(Uint8List.fromList([0xF2, 0, 0, 0, 0]));
+    await Future.delayed(const Duration(milliseconds: 500));
     await widget.bluetoothManager.disconnect();
   }
 

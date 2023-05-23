@@ -29,6 +29,7 @@ class Stick extends StatefulWidget {
 }
 
 class _StickState extends State<Stick> {
+
   Future<void> _sendMessage(Uint8List val) async {
     await widget.bluetoothManager.sendMessage(val);
   }
@@ -50,13 +51,13 @@ class _StickState extends State<Stick> {
           stick: const StickHandle(),
           period: Duration(milliseconds: widget.updateTimeMs),
           onStickDragEnd: () {
-            _sendMessage(format255(0, 0, 100, widget.sig));
+            _sendMessage(format255(0, 0, 30, widget.sig));
           },
           listener: (details) {
             setState(() {
               x = details.x;
               y = details.y;
-              _sendMessage(format255(x, y, 100, widget.sig));
+              _sendMessage(format255(x, y, 30, widget.sig));
             });
           },
         )

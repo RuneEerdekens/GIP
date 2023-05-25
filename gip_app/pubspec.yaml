@@ -39,6 +39,7 @@ dependencies:
   flutter_joystick: ^0.0.3
   flutter_bluetooth_serial: ^0.4.0
   tuple: ^2.0.1
+  shared_preferences: ^2.1.1
 
 dev_dependencies:
   flutter_test:

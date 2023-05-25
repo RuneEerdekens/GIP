@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:async';
 
+import 'package:gip_app/main.dart';
 import 'package:flutter/material.dart';
 import 'bluetooth_connection.dart';
 
@@ -18,20 +19,28 @@ class TestFunctions extends StatefulWidget {
 class _TestFunctionsState extends State<TestFunctions> {
   Uint8List _formatData(double inputVal, int signalVal) {
     int newInpVal = inputVal.floor();
-    return Uint8List.fromList([signalVal, newInpVal, newInpVal, newInpVal, newInpVal]);
+    return Uint8List.fromList(
+        [signalVal, newInpVal, newInpVal, newInpVal, newInpVal]);
   }
 
   Future<void> _sendMessage(Uint8List val) async {
     await widget.bluetoothManager.sendMessage(val);
   }
 
-  double sliderVal = 0;
+  double sliderVal = GlobalData().getVal();
   bool canSend = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_upward),
+          onPressed: () {
+            Navigator.pop(context);
+            GlobalData().setVal(sliderVal);
+          },
+        ),
         title: const Text("Test functions"),
       ),
       body: Align(
@@ -69,7 +78,7 @@ class _TestFunctionsState extends State<TestFunctions> {
                   },
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

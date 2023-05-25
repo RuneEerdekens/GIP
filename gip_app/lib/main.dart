@@ -13,6 +13,17 @@ void main() {
   ]);
 }
 
+double sliderVal = 0;
+
+class GlobalData{
+  void setVal(double val){
+    sliderVal = val;
+  }
+  double getVal(){
+    return sliderVal;
+  }
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override

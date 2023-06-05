@@ -4,7 +4,7 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 class BluetoothConnectionManager {
   late BluetoothConnection connection;
 
-  Future<List<BluetoothDevice>> getBondedDevices() async {
+  Future<List<BluetoothDevice>> getBondedDevices() async { //functie om verbonde devices te vinden
     List<BluetoothDevice> devices = [];
 
     try {
@@ -18,7 +18,7 @@ class BluetoothConnectionManager {
     return devices;
   }
 
-  Future<void> connect(BluetoothDevice device) async {
+  Future<void> connect(BluetoothDevice device) async { // functie om te verbinden via bluetooth
     try {
       BluetoothConnection newConnection =
           await BluetoothConnection.toAddress(device.address);
@@ -29,7 +29,7 @@ class BluetoothConnectionManager {
     }
   }
 
-  Future<void> sendMessage(Uint8List message) async {
+  Future<void> sendMessage(Uint8List message) async { // testfunctie voor een bericht te sturen via bluetooth
     try {
       connection.output.add(message);
       await connection.output.allSent;
@@ -39,7 +39,7 @@ class BluetoothConnectionManager {
     }
   }
 
-  Future<void> disconnect() async {
+  Future<void> disconnect() async {// functie voor los te koppelen van bluetooth
     try {
       await connection.finish();
       print('Disconnected from device');

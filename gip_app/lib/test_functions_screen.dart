@@ -16,14 +16,14 @@ class TestFunctions extends StatefulWidget {
   State<TestFunctions> createState() => _TestFunctionsState();
 }
 
-class _TestFunctionsState extends State<TestFunctions> {
+class _TestFunctionsState extends State<TestFunctions> { // functie die een lijst met 1 singaal byte en 4 dezelvde data bytes maakt
   Uint8List _formatData(double inputVal, int signalVal) {
     int newInpVal = inputVal.floor();
     return Uint8List.fromList(
         [signalVal, newInpVal, newInpVal, newInpVal, newInpVal]);
   }
 
-  Future<void> _sendMessage(Uint8List val) async {
+  Future<void> _sendMessage(Uint8List val) async { // stuut een lijst van bytes door
     await widget.bluetoothManager.sendMessage(val);
   }
 

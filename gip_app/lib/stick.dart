@@ -30,7 +30,7 @@ class Stick extends StatefulWidget {
 
 class _StickState extends State<Stick> {
 
-  Future<void> _sendMessage(Uint8List val) async {
+  Future<void> _sendMessage(Uint8List val) async { // stuur bericht via bluetooth
     await widget.bluetoothManager.sendMessage(val);
   }
 

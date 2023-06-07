@@ -22,11 +22,11 @@ class _BtScreenState extends State<BtScreen> {
     _getBondedDevices();
   }
 
-  Future<void> _sendMessage(Uint8List val) async {
+  Future<void> _sendMessage(Uint8List val) async { // functie om lijst aan data door te sturen over bluetooth
     await widget.bluetoothManager.sendMessage(val);
   }
 
-  Future<void> _getBondedDevices() async {
+  Future<void> _getBondedDevices() async { // functie om bleutooth gepairde devices te vinden
     try {
       devices = await widget.bluetoothManager.getBondedDevices();
     } catch (ex) {
@@ -36,7 +36,7 @@ class _BtScreenState extends State<BtScreen> {
     setState(() {});
   }
 
-  Future<void> _connectToDevice() async {
+  Future<void> _connectToDevice() async { // functie om te verbinden met device
     if (selectedDevice == null) {
       print('No device selected');
       return;
@@ -56,7 +56,7 @@ class _BtScreenState extends State<BtScreen> {
     }
   }
 
-  Future<void> _disconnectFromDevice() async {
+  Future<void> _disconnectFromDevice() async { // functie om verbinding te verbreeken
     _sendMessage(Uint8List.fromList([0xF2, 0, 0, 0, 0]));
     await Future.delayed(const Duration(milliseconds: 500));
     await widget.bluetoothManager.disconnect();

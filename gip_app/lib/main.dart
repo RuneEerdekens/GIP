@@ -5,7 +5,7 @@ import 'test_functions_screen.dart';
 import 'package:gip_app/stick.dart';
 import 'bluetooth_connection.dart';
 
-void main() {
+void main() { // main routine start de app en zet gsm in landchap modus
   runApp(const MyApp());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeRight,
@@ -15,7 +15,7 @@ void main() {
 
 double sliderVal = 0;
 
-class GlobalData{
+class GlobalData{ //getter en setter voor Globaale variablen
   void setVal(double val){
     sliderVal = val;
   }
@@ -24,7 +24,7 @@ class GlobalData{
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget { // start app
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {

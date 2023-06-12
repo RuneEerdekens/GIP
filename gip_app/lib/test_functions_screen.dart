@@ -60,7 +60,7 @@ class _TestFunctionsState extends State<TestFunctions> { // functie die een lijs
               child: Container(
                 margin: const EdgeInsets.only(top: 50),
                 child: Slider(
-                  max: 120,
+                  max: 180,
                   value: sliderVal,
                   onChanged: (double val) {
                     if (canSend) {

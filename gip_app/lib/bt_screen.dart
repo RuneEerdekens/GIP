@@ -44,13 +44,6 @@ class _BtScreenState extends State<BtScreen> {
 
     try {
       await widget.bluetoothManager.connect(selectedDevice!);
-      if (widget.bluetoothManager.connection.isConnected) {
-        _sendMessage(Uint8List.fromList([0xF2, 162, 162, 162, 162]));
-        await Future.delayed(const Duration(milliseconds: 2500));
-        for (var i = 162; i >= 1; i--) {
-            _sendMessage(Uint8List.fromList([0xF2, i, i, i, i]));
-        }
-      }
     } catch (ex) {
       print('Error connecting to device: $ex');
     }

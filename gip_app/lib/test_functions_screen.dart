@@ -31,6 +31,7 @@ class _TestFunctionsState extends State<TestFunctions> {
   }
 
   double sliderVal = GlobalData().getVal();
+  double lrVal = GlobalData().getlr();
   bool canSend = true;
 
   @override
@@ -42,6 +43,7 @@ class _TestFunctionsState extends State<TestFunctions> {
           onPressed: () {
             Navigator.pop(context);
             GlobalData().setVal(sliderVal);
+            GlobalData().setVlr(lrVal);
           },
         ),
         title: const Text("Test functions"),
@@ -58,11 +60,11 @@ class _TestFunctionsState extends State<TestFunctions> {
                 margin: const EdgeInsets.only(top: 50),
                 child: Slider(
                   max: 100,
-                  value: sliderVal,
-                  onChanged: (double val) {
+                  value: lrVal,
+                  onChanged: (double val1) {
                     if (canSend) {
                       _sendMessage(
-                        lr255(val, 100)
+                        lr255(val1, 100.floor())
                       );
                       canSend = false;
                       Timer(const Duration(milliseconds: 50), () {
@@ -70,7 +72,7 @@ class _TestFunctionsState extends State<TestFunctions> {
                       });
                     }
                     setState(() {
-                      sliderVal = val;
+                      lrVal = val1;
                     });
                   },
                 ),
@@ -92,10 +94,10 @@ class _TestFunctionsState extends State<TestFunctions> {
                 child: Slider(
                   max: 180,
                   value: sliderVal,
-                  onChanged: (double val) {
+                  onChanged: (double val2) {
                     if (canSend) {
                       _sendMessage(
-                        _formatData(val, widget.sig),
+                        _formatData(val2, widget.sig),
                       );
                       canSend = false;
                       Timer(const Duration(milliseconds: 50), () {
@@ -103,7 +105,7 @@ class _TestFunctionsState extends State<TestFunctions> {
                       });
                     }
                     setState(() {
-                      sliderVal = val;
+                      sliderVal = val2;
                     });
                   },
                 ),

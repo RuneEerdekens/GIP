@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+
 
 Uint8List format255(double x, double y, double scalar, int signal) {
   Uint8List vals = Uint8List(5);
@@ -58,8 +58,8 @@ Uint8List ud255(double y, double scalar, {int signal = 0xF3}) {
 Uint8List lr255(double val, int maxVal, {int signal = 0xF4}) {
   int cw = 0, ccw = 0;
 
-  cw = ((maxVal / 2) - val.floor()) as int;
-  ccw = (val.floor() - (maxVal / 2)) as int;
+  cw = (maxVal / 2).floor() - val.floor();
+  ccw = val.floor() - (maxVal / 2).floor();
   if (cw < 0) {
     cw = 0;
   }

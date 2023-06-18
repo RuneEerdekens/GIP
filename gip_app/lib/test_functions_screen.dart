@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:gip_app/main.dart';
 import 'package:flutter/material.dart';
+import 'package:gip_app/stick_data.dart';
 import 'bluetooth_connection.dart';
 
 class TestFunctions extends StatefulWidget {
@@ -16,14 +17,16 @@ class TestFunctions extends StatefulWidget {
   State<TestFunctions> createState() => _TestFunctionsState();
 }
 
-class _TestFunctionsState extends State<TestFunctions> { // functie die een lijst met 1 singaal byte en 4 dezelvde data bytes maakt
+class _TestFunctionsState extends State<TestFunctions> {
+  // functie die een lijst met 1 singaal byte en 4 dezelvde data bytes maakt
   Uint8List _formatData(double inputVal, int signalVal) {
     int newInpVal = inputVal.floor();
     return Uint8List.fromList(
         [signalVal, newInpVal, newInpVal, newInpVal, newInpVal]);
   }
 
-  Future<void> _sendMessage(Uint8List val) async { // stuut een lijst van bytes door
+  Future<void> _sendMessage(Uint8List val) async {
+    // stuut een lijst van bytes door
     await widget.bluetoothManager.sendMessage(val);
   }
 
@@ -47,6 +50,33 @@ class _TestFunctionsState extends State<TestFunctions> { // functie die een lijs
         alignment: AlignmentDirectional.center,
         child: Column(
           children: [
+            //RightLeftSlider START --------------------------
+
+            Align(
+              alignment: AlignmentDirectional.center,
+              child: Container(
+                margin: const EdgeInsets.only(top: 50),
+                child: Slider(
+                  max: 100,
+                  value: sliderVal,
+                  onChanged: (double val) {
+                    if (canSend) {
+                      _sendMessage(
+                        lr255(val, 100)
+                      );
+                      canSend = false;
+                      Timer(const Duration(milliseconds: 50), () {
+                        canSend = true;
+                      });
+                    }
+                    setState(() {
+                      sliderVal = val;
+                    });
+                  },
+                ),
+              ),
+            ),
+            // MAIN SLIDER START ----------------------
             Container(
               padding: const EdgeInsets.only(top: 60),
               child: Text(
@@ -79,6 +109,7 @@ class _TestFunctionsState extends State<TestFunctions> { // functie die een lijs
                 ),
               ),
             ),
+            // MAIN SLIDER END ---------------------
           ],
         ),
       ),
